@@ -11,28 +11,20 @@ local responses = require "kong.tools.responses"
 JWT_EXP_TIME = 345600
 
 SSO_API_MAP = {
-    xiaotest = {
-      host = "http://logintest.xiaojiaoyu100.com/oauth2/boss/check_password",
-      token = "Basic b2F1dGgyOk42R0pXSTc5NlhJMjUzT0lSQ1pWV0lTWFhTMllXSEZM"
-    },
-    xiaoprod = {
-      host = "https://login.xiaojiaoyu100.com/oauth2/boss/check_password",
-      token = "Basic "
-    },
+   -- 登录接口的地址配置，当前的请求参数为ConsumerId(这个在kong上面生成Consumer，命名为如下的：“psplocal”)
     psplocal = {
       host = "http://localhost:15000/api/v1.0/login/admin",
       token = "Basic "
     },
     psptest = {
-      host = "http://10.25.211.179:15000/api/v1.0/login/admin",
+      host = "http://XXXX:15000/api/v1.0/login/admin",
       token = "Basic "
     },
 }
 
 
 local function ret(msg)
-    -- local response = {err = msg}
-    -- return response
+
     return false,msg
 end
 
@@ -62,8 +54,6 @@ local function sso_login(params)
 
   if string.find(project_name, "psp") ~= nil then
     ssobody = '{"Phone":"' .. params.Phone .. '","Captcha":"' .. params.Captcha .. '"}'
-  elseif string.find(project_name, "xiao") ~= nil then
-    ssobody = '{"username":"' .. params.username .. '","password":"' .. params.password .. '"}'
   end
 
 
